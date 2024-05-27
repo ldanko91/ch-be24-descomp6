@@ -1,0 +1,26 @@
+<h1>¡Bienvenido {{user.first_name}}!</h1>
+<h2>Datos de tu perfil</h2>
+
+<section id="perfil">
+    <div>
+        <ul>
+            <li>Nombre completo: {{user.first_name}} {{user.last_name}}</li>
+            <li>ID:{{user._id}}</li>
+            <li>{{user.email}}</li>
+            <li>Edad:{{user.age}}</li>
+            <li>Código de Carrito: {{cartCode}}</li>
+        </ul>
+    </div>
+    <div>
+        <h2>Solicitar Premium!</h2>
+        <p>Para solicitar tu membresía premium deberás seguir los siguientes pasos:</p>
+        <a href="/api/users/documents"><h3>Paso1: Carga la documentación requerida</h3></a>
+        <h3>Paso2: Solicita la membresía cliqueando el botón</h3>
+        <button onclick="askPremium('{{user._id}}')">Solicitar Premium!</button>
+    </div>
+
+    <a href="/api/products">
+        <h3>Volver al listado de productos</h3>
+    </a>
+</section>
+<script src="/js/users.js"></script>

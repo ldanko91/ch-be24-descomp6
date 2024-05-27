@@ -1,0 +1,15 @@
+<body>
+    <h1>Carga de documentación para solicitud de Premium</h1>
+    <form action='/api/users/documents/{{id}}' method="POST" enctype="multipart/form-data">
+        <label for="identification">Identificación:</label>
+        <input type="file" name="files" id="identification" required>
+        <br>
+        <label for="adressValidate">Comprobante de domicilio:</label>
+        <input type="file" name="files" id="adressValidate" required>
+        <br>
+        <label for="accountStat">Comprobante de estado de cuenta:</label>
+        <input type="file" name="files" id="accountStat" required>
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+</body>

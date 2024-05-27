@@ -1,0 +1,177 @@
+openapi: "3.0.3"
+info:
+  title: API Products
+  version: "1.0"
+paths:
+  /api/products/:
+    get:
+      summary: Obtienes todos los productos
+      tags:
+        - products
+      responses:
+        "401":
+          description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+        "200":
+          description: Se obtuvieron todos los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /api/products/:pcod:
+    get:
+      summary: Obtienes todos los productos
+      tags:
+        - products
+      responses:
+        "401":
+          description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+        "200":
+          description: Se btuvo el producto del código señalado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /api/products/backoffice:
+    get:
+      summary: Sección destinada a usuarios de tipo premium o admin desde dodne se accede a los formularios de edición de productos, y a un listado de todos los productos
+      tags:
+        - products
+      responses:
+        "401":
+          description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+        "403":
+          description: Unauthorized. Se requiere tener rol de premium o admin.
+        "200":
+          description: Se accedió al backoffice y se obtuvieron todos los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      tags:
+        - products
+      requestBody:
+        description: Situados en la sección backoffice, crear un nuevo producto en la base de datos a través del formulario de Carga de productos
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+        responses:
+          "401":
+            description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+          "403":
+            description: Unauthorized. Se requiere tener rol de premium o admin.
+          "200":
+            description: Se creó un nuevo producto desde el backoffice
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Product"
+  /api/products/backoffice/:pcod:
+    put:
+      tags:
+        - products
+      requestBody:
+        description: Situados en la sección backoffice, editar un producto de la base de datos a través del formulario de Modificación de productos cargados
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+        responses:
+          "401":
+            description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+          "403":
+            description: Unauthorized. Se requiere tener rol de premium o admin
+          "200":
+            description: Se editó un producto existente desde el backoffice
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Product"
+    delete:
+      tags:
+        - products
+      requestBody:
+        description: Situados en el backoffice, cambiar el status a FALSE del producto con el codigo informado, de la base de datos
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+        responses:
+          "401":
+            description: Unauthorized. Se requiere estar loggeado como user y validado por JWT token.
+          "403":
+            description: Unauthorized. Se requiere tener rol de premium o admin.
+          "200":
+            description: Se desactivó un producto existente desde el backoffice
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Product"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código de producto del negocio (SKU)
+          required: true
+          unique: true
+        title:
+          type: string
+          description: Nombre del producto
+          required: true
+        descripcion:
+          type: string
+          description: Descripción del artículo
+          required: true
+        price:
+          type: number
+          description: Precio del producto expresado en números enteros
+          required: true
+        thumbnail:
+          type: array
+          description: Array de strings de rutas a imágenes del producto
+        stock:
+          type: number
+          description: Unidades disponibles del producto expresado en números enteros
+          required: true
+        status:
+          type: boolean
+          description: Atributo que describe si el producto se encuentra disponible
+          required: true
+        category:
+          type: string
+          description: Rubro al que se asocia el producto
+          required: true
+        description:
+          type: string
+          description: Usuario premium responsable del producto
+          required: true
+          default: 'admin'
+      example:
+        code: producto123
+        title: Lapicera azul
+        description: Lapicera tipo bolígrafo con tinta color azúl, y cartuchod e uso único
+        price: 123
+        thumbnail: ['public/img/producto123.jpg','public/img/producto123-1.jpg',]
+        stock: 50
+        status: true
+        category: libreria
+        owner: user123
